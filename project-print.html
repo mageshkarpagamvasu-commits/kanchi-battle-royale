@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanchi Battle Royale Android Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+    h1, h2, h3 { color: #111; }
+    pre {
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      padding: 16px;
+      overflow: auto;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    code {
+      font-family: Consolas, monospace;
+      font-size: 12px;
+    }
+    .box {
+      border: 1px solid #ddd;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+    }
+    .folder {
+      font-family: Consolas, monospace;
+      background: #f8f8f8;
+      padding: 12px;
+      border: 1px solid #ddd;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kanchi Battle Royale Android Project</h1>
+  <p>Printable project summary for Android Studio.</p>
+
+  <div class="box">
+    <h2>Project Structure</h2>
+    <div class="folder">kanchi-battle-royale/
+├── app/
+│   ├── build.gradle.kts
+│   ├── proguard-rules.pro
+│   └── src/
+│       └── main/
+│           ├── AndroidManifest.xml
+│           └── java/
+│               └── com/example/kanchibattleroyale/
+│                   ├── MainActivity.kt
+│                   └── GameScreen.kt
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle.properties
+├── README.md
+└── .gitignore</div>
+  </div>
+
+  <div class="box">
+    <h2>settings.gradle.kts</h2>
+    <pre><code>pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "KanchiBattleRoyale"
+include(":app")</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>build.gradle.kts (Root)</h2>
+    <pre><code>plugins {
+    id("com.android.application") version "8.5.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.24" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "1.9.24" apply false
+}</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>app/build.gradle.kts</h2>
+    <pre><code>plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
+android {
+    namespace = "com.example.kanchibattleroyale"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.example.kanchibattleroyale"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+    implementation(platform("androidx.compose:compose-bom:2024.09.00"))
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
+    implementation("androidx.activity:activity-compose:1.9.2")
+
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+}</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>app/src/main/AndroidManifest.xml</h2>
+    <pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;application
+        android:allowBackup="true"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="Kanchi Battle Royale"
+        android:roundIcon="@android:drawable/sym_def_app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"&gt;
+        &lt;activity
+            android:name=".MainActivity"
+            android:exported="true"&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name="android.intent.action.MAIN" /&gt;
+                &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>app/src/main/java/com/example/kanchibattleroyale/MainActivity.kt</h2>
+    <pre><code>package com.example.kanchibattleroyale
+
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import android.os.Bundle
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            MaterialTheme {
+                Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF111827)) {
+                    KanchiBattleRoyaleApp()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun KanchiBattleRoyaleApp() {
+    var selectedCharacter by remember { mutableIntStateOf(0) }
+    var inGame by remember { mutableStateOf(false) }
+    val gameState = remember { GameState() }
+
+    if (inGame) {
+        GameScreen(
+            gameState = gameState,
+            onExitToMenu = { inGame = false }
+        )
+    } else {
+        StartMenu(
+            selectedCharacter = selectedCharacter,
+            onCharacterSelected = { selectedCharacter = it },
+            onPlay = {
+                gameState.start(selectedCharacter)
+                inGame = true
+            }
+        )
+    }
+}</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>app/src/main/java/com/example/kanchibattleroyale/GameScreen.kt</h2>
+    <pre><code>package com.example.kanchibattleroyale
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlin.math.cos
+import kotlin.math.hypot
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sin
+
+private data class CharacterSpec(
+    val name: String,
+    val hp: Float,
+    val speed: Float,
+    val rate: Float,
+    val color: Color
+)
+
+private data class Actor(
+    val name: String,
+    val color: Color,
+    val speed: Float,
+    val rate: Float,
+    val maxHp: Float,
+    var x: Float,
+    var y: Float,
+    var hp: Float = maxHp,
+    var alive: Boolean = true,
+    var player: Boolean = false,
+    var ammo: Int = 110,
+    var kills: Int = 0,
+    var cooldown: Float = 0f,
+    var angle: Float = 0f,
+    var wander: Float = 0f,
+    var kind: Int = 0,
+)
+
+class GameState {
+    val world = 2200f
+    val actors = mutableStateListOf&lt;Actor&gt;()
+    var running = false
+    var player: Actor? = null
+    var firePressed = false
+    var moveX = 0f
+    var moveY = 0f
+
+    fun start(characterIndex: Int) {
+        val roster = listOf(
+            CharacterSpec("Vimal Don", 120f, 205f, 0.29f, Color(0xFFFBBF24)),
+            CharacterSpec("Bottle Mani", 100f, 210f, 0.19f, Color(0xFF38BDF8)),
+            CharacterSpec("Aunty Madhan", 150f, 185f, 0.30f, Color(0xFFFB923C)),
+            CharacterSpec("Vidhakaran Vishnu", 100f, 250f, 0.28f, Color(0xFFA78BFA)),
+            CharacterSpec("Chellam Keerthi", 110f, 215f, 0.27f, Color(0xFFF472B6))
+        )
+
+        val spec = roster[characterIndex]
+        player = Actor(spec.name, spec.color, spec.speed, spec.rate, spec.hp, 1100f, 1100f)
+        actors.clear()
+        actors.add(player!!)
+        running = true
+    }
+
+    fun update(dt: Float) {
+        if (!running || player == null) return
+        val actor = player!!
+        val length = hypot(moveX.toDouble(), moveY.toDouble()).toFloat()
+        var dx = moveX
+        var dy = moveY
+        if (length > 1f) {
+            dx /= length
+            dy /= length
+        }
+        actor.x += dx * actor.speed * dt
+        actor.y += dy * actor.speed * dt
+    }
+
+    fun draw(scope: DrawScope) {
+        val playerActor = player ?: return
+        with(scope) {
+            drawRect(Color(0xFF20382F), Offset.Zero, size)
+            drawCircle(playerActor.color, radius = 16f, center = Offset(playerActor.x, playerActor.y))
+        }
+    }
+}
+
+@Composable
+fun GameCanvas(gameState: GameState) {
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(gameState.running) {
+        if (!gameState.running) return@LaunchedEffect
+        while (gameState.running) {
+            delay(16)
+            gameState.update(0.016f)
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0A1B2D))
+            .pointerInput(gameState) {
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        if (offset.x < size.width * 0.6f) {
+                            gameState.moveX = 1f
+                            gameState.moveY = 1f
+                        }
+                    },
+                    onDrag = { change, _ ->
+                        gameState.moveX = 1f
+                        gameState.moveY = 1f
+                    },
+                    onDragEnd = {
+                        gameState.moveX = 0f
+                        gameState.moveY = 0f
+                    }
+                )
+            }
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            gameState.draw(this)
+        }
+    }
+}</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>How to Use This Project</h2>
+    <ol>
+      <li>Open the project in Android Studio.</li>
+      <li>Sync Gradle.</li>
+      <li>Run on an emulator or Android device.</li>
+      <li>Use Build &gt; Build APK(s) to generate app-debug.apk.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h2>PDF Export</h2>
+    <p>Open this HTML file in a browser and use:</p>
+    <ul>
+      <li>Chrome / Edge: Print &gt; Save as PDF</li>
+      <li>or File &gt; Print &gt; Save as PDF</li>
+    </ul>
+  </div>
+</body>
+</html>
